@@ -1,5 +1,7 @@
 import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common'
 import { AuthService } from './auth.service'
+import { plainToInstance } from 'class-transformer'
+import { UserResponseObject } from '../user/user.response.object'
 
 @Controller('auth')
 export class AuthController {
@@ -22,9 +24,12 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async login(@Body() body: { username: string; password: string }) {
     const user = await this.authService.login(body.username, body.password)
+    const userResponseObject = plainToInstance(UserResponseObject, user, {
+      excludeExtraneousValues: true,
+    })
     return {
       message: 'Login realizado com sucesso',
-      user,
+      userResponseObject,
       // token: '...'
     }
   }

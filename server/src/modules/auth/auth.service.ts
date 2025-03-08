@@ -31,6 +31,12 @@ export class AuthService {
   }
 
   async login(username: string, password: string): Promise<User> {
+    if (!username) {
+      throw new HttpException('Nome de usuário obrigatório', HttpStatus.BAD_REQUEST)
+    }
+    if (!password) {
+      throw new HttpException('Senha obrigatória', HttpStatus.BAD_REQUEST)
+    }
     const user = await this.userRepository.findOne({ where: { username } })
     if (!user) {
       throw new UnauthorizedException('Usuário não encontrado.')
@@ -38,6 +44,7 @@ export class AuthService {
     if (!(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Senha inválida.')
     }
+
     return user
   }
 }
