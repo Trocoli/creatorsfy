@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { User } from './modules/user/user.entity'
 import { AuthModule } from './modules/auth/auth.module'
@@ -6,6 +7,9 @@ import { MongooseModule } from '@nestjs/mongoose'
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: './data/db.sqlite',

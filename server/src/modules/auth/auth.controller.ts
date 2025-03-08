@@ -8,7 +8,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   // Endpoint que recebe um usuario, uma senha e uma loja e cadastra o usuario
-  // checar tamanho de senha,
+  // checar tamanho de senha usar validators,
   // verificar se a loja precisa de alguma logica a mais.
   @Post('register')
   async register(@Body() body: { username: string; password: string; store: string }) {
@@ -23,14 +23,14 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() body: { username: string; password: string }) {
-    const user = await this.authService.login(body.username, body.password)
+    const { user, token } = await this.authService.login(body.username, body.password)
     const userResponseObject = plainToInstance(UserResponseObject, user, {
       excludeExtraneousValues: true,
     })
     return {
       message: 'Login realizado com sucesso',
-      userResponseObject,
-      // token: '...'
+      userInfo: userResponseObject,
+      token,
     }
   }
 }
