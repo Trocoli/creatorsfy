@@ -19,7 +19,7 @@ export class AuthController {
     }
   }
 
-  // Endpoint para login passando usuario e senha
+  // Endpoint para login passando usuario e senha, retorna userinfo e jwt token
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() body: { username: string; password: string }) {
