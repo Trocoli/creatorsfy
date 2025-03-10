@@ -1,4 +1,4 @@
-import { ConfigProvider, Divider, Layout } from "antd";
+import { ConfigProvider, Divider, Layout, Typography } from "antd";
 import React from "react";
 
 export interface PageProps {
@@ -10,6 +10,13 @@ const headerStyle: React.CSSProperties = {
   alignSelf: "start",
   fontSize: "2rem",
   backgroundColor: "transparent",
+  color: "#7b8eb5",
+};
+
+const titleStyle: React.CSSProperties = {
+  fontSize: "1.5rem",
+  fontWeight: "bold",
+  marginBottom: "20px",
 };
 
 const contentStyle: React.CSSProperties = {
@@ -24,6 +31,7 @@ const contentStyle: React.CSSProperties = {
 const footerStyle: React.CSSProperties = {
   textAlign: "center",
   color: "#fff",
+  backgroundColor: "transparent",
   width: "100%",
 };
 
@@ -34,6 +42,7 @@ const layoutStyle: React.CSSProperties = {
   borderRadius: 8,
   height: "calc(100vh - 20px)",
   width: "100%",
+  backgroundColor: "#101720",
 };
 
 const Page: React.FC<PageProps> = ({ children, title }) => {
@@ -44,16 +53,26 @@ const Page: React.FC<PageProps> = ({ children, title }) => {
       theme={{
         token: {
           fontFamily: "var(--font-geist-mono)",
+          colorText: "#c5d1ed",
+          colorBgBase: "#2f343b",
+          colorPrimary: "#54d3d4",
+          colorHighlight: "#54d3d4",
+          colorIcon: "#7b8eb5",
+          colorInfo: "#54d3d4",
+        },
+        components: {
+          Form: {
+            colorInfoBorder: "#fff",
+          },
         },
       }}
     >
       <Layout style={layoutStyle}>
-        <Header style={headerStyle}>{title}</Header>
-        {title && (
-          <Divider style={{ borderWidth: 2, borderColor: "var(--white)" }} />
-        )}
+        <Header style={headerStyle}>Creatorsfy.</Header>
+        {title && <Divider style={{ borderColor: "#c5d1ed" }} />}
+        <Typography style={titleStyle}>{title}</Typography>
         <Content style={contentStyle}>{children}</Content>
-        <Footer style={footerStyle}>Footer</Footer>
+        <Footer style={footerStyle}>@Creatorsfy</Footer>
       </Layout>
     </ConfigProvider>
   );
