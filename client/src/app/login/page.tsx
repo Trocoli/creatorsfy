@@ -1,8 +1,8 @@
-export default function Home() {
+export default function Login() {
   return (
     <div>
       <main>
-        <h1>Creatorsfy</h1>
+        <h1>login page</h1>
       </main>
       <footer>Created by: @trocoli</footer>
     </div>
