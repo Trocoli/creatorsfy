@@ -1,10 +1,11 @@
 "use client";
 import { Button, Col, Form, Input, Row, Typography } from "antd";
 import Page from "lib/components/Page";
+import Link from "next/link";
 
 export default function Regsiter() {
   return (
-    <Page title="Registre-se">
+    <Page title="Crie sua conta">
       <Row justify="center" style={{ width: "100%" }}>
         <Col xs={20} md={10} xl={8}>
           <Form
@@ -28,8 +29,6 @@ export default function Regsiter() {
                   <Input />
                 </Form.Item>
               </Col>
-            </Row>
-            <Row>
               <Col span={24}>
                 <Form.Item
                   name={"password"}
@@ -45,8 +44,6 @@ export default function Regsiter() {
                   <Input.Password />
                 </Form.Item>
               </Col>
-            </Row>
-            <Row>
               <Col span={24}>
                 <Form.Item
                   name="store"
@@ -65,11 +62,7 @@ export default function Regsiter() {
             </Row>
             <Row justify={"center"} style={{ marginTop: 4 }}>
               <Col span={8}>
-                <Button
-                  type="default"
-                  style={{ width: "100%", color: "#fff" }}
-                  ghost
-                >
+                <Button type="primary" style={{ width: "100%" }}>
                   Enviar
                 </Button>
               </Col>
@@ -78,9 +71,11 @@ export default function Regsiter() {
               <Col style={{ marginTop: 10 }}>
                 <Typography>
                   Já possui uma conta? faca o{" "}
-                  <Button type="link" size="small">
-                    login
-                  </Button>
+                  <Link href={"/login"}>
+                    <Button type="link" size="small">
+                      login
+                    </Button>
+                  </Link>
                 </Typography>
               </Col>
             </Row>

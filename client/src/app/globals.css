@@ -1,18 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #233554;
-  --foreground: #233554;
-  --white: #f2f2f2;
+  --white: #ffffff;
+  --offwhite: #fafaf9;
+  --black: #1b1b1b;
+  --main-black: #242628;
+  --gray: #666666;
+  --primary-green: #00be43;
+  --blue-teal: #468189;
+  --info: #e54f6d;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--main-black);
+  color: var(--white);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.ant-tooltip-icon {
-  color: yellow;
-  background-color: green;
+.ant-input,
+.ant-input-password {
+  border-radius: 0 !important;
 }

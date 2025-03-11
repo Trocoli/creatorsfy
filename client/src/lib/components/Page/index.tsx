@@ -10,7 +10,6 @@ const headerStyle: React.CSSProperties = {
   alignSelf: "start",
   fontSize: "2rem",
   backgroundColor: "transparent",
-  color: "#7b8eb5",
 };
 
 const titleStyle: React.CSSProperties = {
@@ -30,7 +29,6 @@ const contentStyle: React.CSSProperties = {
 
 const footerStyle: React.CSSProperties = {
   textAlign: "center",
-  color: "#fff",
   backgroundColor: "transparent",
   width: "100%",
 };
@@ -40,9 +38,8 @@ const layoutStyle: React.CSSProperties = {
   flexDirection: "column",
   alignItems: "center",
   borderRadius: 8,
-  height: "calc(100vh - 20px)",
+  height: "100vh",
   width: "100%",
-  backgroundColor: "#101720",
 };
 
 const Page: React.FC<PageProps> = ({ children, title }) => {
@@ -53,23 +50,23 @@ const Page: React.FC<PageProps> = ({ children, title }) => {
       theme={{
         token: {
           fontFamily: "var(--font-geist-mono)",
-          colorText: "#c5d1ed",
-          colorBgBase: "#2f343b",
-          colorPrimary: "#54d3d4",
-          colorHighlight: "#54d3d4",
-          colorIcon: "#7b8eb5",
-          colorInfo: "#54d3d4",
+          colorBgLayout: "#fafaf9",
+          colorText: "#1b1b1b",
+          colorBgBase: "#f2f2f2",
+          colorPrimary: "#00be43",
+          colorHighlight: "#00be43",
+          colorInfo: "#e54f6d",
         },
         components: {
-          Form: {
-            colorInfoBorder: "#fff",
+          Button: {
+            borderRadiusLG: 20,
           },
         },
       }}
     >
       <Layout style={layoutStyle}>
         <Header style={headerStyle}>Creatorsfy.</Header>
-        {title && <Divider style={{ borderColor: "#c5d1ed" }} />}
+        {title && <Divider style={{ borderColor: "#666666" }} />}
         <Typography style={titleStyle}>{title}</Typography>
         <Content style={contentStyle}>{children}</Content>
         <Footer style={footerStyle}>@Creatorsfy</Footer>
