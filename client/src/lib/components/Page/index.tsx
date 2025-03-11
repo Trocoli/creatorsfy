@@ -44,6 +44,7 @@ const layoutStyle: React.CSSProperties = {
 
 const Page: React.FC<PageProps> = ({ children, title }) => {
   // # implementar loading state
+  // # set Header logout options
   const { Header, Content, Footer } = Layout;
   return (
     <ConfigProvider
@@ -65,7 +66,7 @@ const Page: React.FC<PageProps> = ({ children, title }) => {
       }}
     >
       <Layout style={layoutStyle}>
-        <Header style={headerStyle}>Creatorsfy.</Header>
+        <Header style={headerStyle}>Creatorsfy. </Header>
         {title && <Divider style={{ borderColor: "#666666" }} />}
         <Typography style={titleStyle}>{title}</Typography>
         <Content style={contentStyle}>{children}</Content>

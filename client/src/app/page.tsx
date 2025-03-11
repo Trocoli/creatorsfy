@@ -1,10 +1,7 @@
-export default function Home() {
-  return (
-    <div>
-      <main>
-        <h1>Creatorsfy</h1>
-      </main>
-      <footer>Created by: @trocoli</footer>
-    </div>
-  );
-}
+import React from "react";
+
+const Home = () => {
+  return <div>Home</div>;
+};
+
+export default Home;
