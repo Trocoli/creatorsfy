@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ExternalConfig } from "api/config/external";
 import { UserLoginParams } from "api/types";
 
-export const authApi = createApi({
+export const authApiSlice = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: ExternalConfig.AUTH_SERVER_URL,
@@ -26,4 +26,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation } = authApiSlice;
