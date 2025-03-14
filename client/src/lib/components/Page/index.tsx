@@ -1,5 +1,6 @@
 import { ConfigProvider, Divider, Layout, Typography } from "antd";
 import React from "react";
+import NotificationsManager from "../NotificationManager";
 
 export interface PageProps {
   title?: string;
@@ -69,7 +70,12 @@ const Page: React.FC<PageProps> = ({ children, title }) => {
         <Header style={headerStyle}>Creatorsfy. </Header>
         {title && <Divider style={{ borderColor: "#666666" }} />}
         <Typography style={titleStyle}>{title}</Typography>
-        <Content style={contentStyle}>{children}</Content>
+        <Content style={contentStyle}>
+          <div>
+            <NotificationsManager />
+          </div>
+          {children}
+        </Content>
         <Footer style={footerStyle}>@Creatorsfy</Footer>
       </Layout>
     </ConfigProvider>

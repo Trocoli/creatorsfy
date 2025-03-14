@@ -41,34 +41,11 @@ axios.interceptors.response.use(
   }
 );
 
-export const fetchConfig = async () => {
-  try {
-    const response = await axios("config.json");
-
-    if (
-      !["text/json", "application/json"].includes(
-        response.headers["content-type"]
-      )
-    ) {
-      return loadExternalConfig();
-    }
-
-    ExternalConfig = {
-      ...ExternalConfig,
-      ...response.data,
-      loaded: true,
-    };
-  } catch (error) {
-    console.warn(error);
-    loadExternalConfig();
-  }
-};
-
-function loadExternalConfig() {
+export function loadExternalConfig() {
   ExternalConfig = {
     ...ExternalConfig,
-    CLIENT_ID: "MTE_SGQP",
-    AUTH_SERVER_URL: "http://localhost:3002/",
+    CLIENT_ID: "CREATORSFY",
+    AUTH_SERVER_URL: "http://localhost:8443",
     FRONTEND_INDEX: "http://localhost:3000",
     loaded: true,
     RECAPTCHA_KEY: "rk",
