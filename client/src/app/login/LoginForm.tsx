@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { pushApiNotification } from "lib/helpers/notificationsHelper";
+import { setAuthStoredValue } from "lib/helpers/storageHelper";
 
 interface BackendError {
   status: number;
@@ -25,8 +26,12 @@ const LoginForm = () => {
   const onFinish = async (values: { username: string; password: string }) => {
     try {
       const result = await login(values).unwrap();
-      localStorage.setItem("token", result.token);
-      dispatch(setCredentials({ token: result.token, user: result.user }));
+      setAuthStoredValue("access_token", result.token);
+      setAuthStoredValue("user_info", JSON.stringify(result.userInfo));
+
+      dispatch(
+        setCredentials({ token: result.token, userInfo: result.userInfo })
+      );
       if (result.userInfo) {
         pushApiNotification({
           state: "success",

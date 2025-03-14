@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "openapi:generate:syncapi": "npm run openapi:generate:create-dir && npm run openapi:generate:local",
+    "openapi:generate:create-dir": "mkdir ./src/data/api/generated",
+    "openapi:generate:local": "openapi-generator-cli generate -i ../server/openapi.json -g typescript-axios --enum -c openapitools.json --generator-key local"
   },
   "dependencies": {
     "@ant-design/icons": "^5.6.1",
@@ -19,16 +22,19 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
-    "react-redux": "^9.2.0"
+    "react-redux": "^9.2.0",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@openapitools/openapi-generator-cli": "^2.18.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
+    "openapi-typescript": "^7.6.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

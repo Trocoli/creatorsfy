@@ -71,9 +71,7 @@ const Page: React.FC<PageProps> = ({ children, title }) => {
         {title && <Divider style={{ borderColor: "#666666" }} />}
         <Typography style={titleStyle}>{title}</Typography>
         <Content style={contentStyle}>
-          <div>
-            <NotificationsManager />
-          </div>
+          <NotificationsManager />
           {children}
         </Content>
         <Footer style={footerStyle}>@Creatorsfy</Footer>

@@ -1,8 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ExternalConfig, loadExternalConfig } from "data/api/config/external";
-import { UserLoginParams } from "types";
+import { UserInfo, UserLoginParams } from "types";
 import { getAuthStoredValue } from "lib/helpers/storageHelper";
 import { authStorageKeys, urlParams } from "data/constants/authConstants";
+
+interface LoginResponse {
+  token: string;
+  userInfo: UserInfo;
+}
 
 export const authApiSlice = createApi({
   reducerPath: "authApi",
@@ -22,7 +27,7 @@ export const authApiSlice = createApi({
     },
   }),
   endpoints: (builder) => ({
-    login: builder.mutation({
+    login: builder.mutation<LoginResponse, UserLoginParams>({
       query: (loginInfo: UserLoginParams) => ({
         url: "/auth/login",
         method: "POST",
