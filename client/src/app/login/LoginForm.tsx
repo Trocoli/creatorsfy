@@ -1,38 +1,31 @@
 "use client";
 import { Form, Row, Col, Input, Button, Typography } from "antd";
-import { useLoginMutation } from "data/api/services/authServices";
-import { useAppDispatch } from "data/api/services/hooks";
-import { setCredentials } from "app/slices/authSlice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { pushApiNotification } from "lib/helpers/notificationsHelper";
-import { setAuthStoredValue } from "lib/helpers/storageHelper";
-
-interface BackendError {
-  status: number;
-  data: {
-    message: string;
-    error: string;
-    statusCode: number;
-  };
-}
+import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
-  const dispatch = useAppDispatch();
-  const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values: { username: string; password: string }) => {
     try {
-      const result = await login(values).unwrap();
-      setAuthStoredValue("access_token", result.token);
-      setAuthStoredValue("user_info", JSON.stringify(result.userInfo));
-
-      dispatch(
-        setCredentials({ token: result.token, userInfo: result.userInfo })
-      );
-      if (result.userInfo) {
+      setIsLoading(true);
+      const res = await signIn("credentials", {
+        username: values.username,
+        password: values.password,
+        redirect: false,
+      });
+      setIsLoading(false);
+      if (res?.error) {
+        pushApiNotification({
+          state: "error",
+          message:
+            "Nome de usuário ou senha inválidos, verifique suas credenciais e tente novamente.",
+        });
+      } else {
         pushApiNotification({
           state: "success",
           message: "Sucesso ao fazer login.",
@@ -40,12 +33,12 @@ const LoginForm = () => {
         router.push("/dashboard");
       }
     } catch (err) {
-      const errResponse = err as BackendError;
-      const errMessage =
-        errResponse?.data?.message ||
-        "Login falhou. Confira suas credenciais novamente ou tente mais tarde.";
-      if (errResponse.status == 401)
-        pushApiNotification({ state: "error", message: errMessage });
+      setIsLoading(false);
+      console.error("SignIn threw an error =>", err);
+      pushApiNotification({
+        state: "error",
+        message: "Ocorreu um erro inesperado. Tente novamente mais tarde.",
+      });
     }
   };
 
@@ -64,7 +57,6 @@ const LoginForm = () => {
             rules={[
               {
                 required: true,
-                warningOnly: true,
                 message: "Nome de usuário obrigatório!",
                 whitespace: true,
               },
@@ -80,7 +72,6 @@ const LoginForm = () => {
             rules={[
               {
                 required: true,
-                warningOnly: true,
                 message: "Senha obrigatória!",
                 whitespace: true,
               },

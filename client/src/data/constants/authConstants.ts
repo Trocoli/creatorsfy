@@ -3,12 +3,6 @@ export type UserLoginParams = {
   password: string;
 };
 
-export type UserInfo = {
-  userId: string;
-  username: string;
-  store: string;
-};
-
 export const authEndpoints = {
   loginUrl: "/login",
   logoutUrl: "/logout",

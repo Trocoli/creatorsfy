@@ -1,17 +1,13 @@
 import { ConfigProvider, Divider, Layout, Typography } from "antd";
 import React from "react";
 import NotificationsManager from "../NotificationManager";
+import CustomHeader from "../CustomHeader";
+import { CustomHeaderProps } from "../CustomHeader";
 
-export interface PageProps {
+export type PageProps = {
   title?: string;
   children?: React.ReactNode;
-}
-
-const headerStyle: React.CSSProperties = {
-  alignSelf: "start",
-  fontSize: "2rem",
-  backgroundColor: "transparent",
-};
+} & CustomHeaderProps;
 
 const titleStyle: React.CSSProperties = {
   fontSize: "1.5rem",
@@ -43,10 +39,15 @@ const layoutStyle: React.CSSProperties = {
   width: "100%",
 };
 
-const Page: React.FC<PageProps> = ({ children, title }) => {
+export default function Page({
+  children,
+  title,
+  action,
+  loggedUser,
+}: PageProps) {
   // # implementar loading state
   // # set Header logout options
-  const { Header, Content, Footer } = Layout;
+  const { Content, Footer } = Layout;
   return (
     <ConfigProvider
       theme={{
@@ -67,8 +68,8 @@ const Page: React.FC<PageProps> = ({ children, title }) => {
       }}
     >
       <Layout style={layoutStyle}>
-        <Header style={headerStyle}>Creatorsfy. </Header>
-        {title && <Divider style={{ borderColor: "#666666" }} />}
+        <CustomHeader action={action} loggedUser={loggedUser} />
+        {title && <Divider style={{ borderColor: "#666666", marginTop: 0 }} />}
         <Typography style={titleStyle}>{title}</Typography>
         <Content style={contentStyle}>
           <NotificationsManager />
@@ -78,6 +79,4 @@ const Page: React.FC<PageProps> = ({ children, title }) => {
       </Layout>
     </ConfigProvider>
   );
-};
-
-export default Page;
+}
