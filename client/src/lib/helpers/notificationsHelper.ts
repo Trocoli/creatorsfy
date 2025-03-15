@@ -15,7 +15,7 @@ export const pushNotification = ({
 };
 
 export const pushApiNotification = ({ state, message }: NotificationProps) => {
-  toast(message, { icon: state, duration: 10_000 });
+  toast(message, { icon: state, duration: 5_000 });
 };
 
 export const clearNotifications = () => {

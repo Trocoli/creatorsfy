@@ -1,6 +1,6 @@
 "use client";
 import { Button, Col, Form, Input, Row, Typography } from "antd";
-import { signIn } from "app/auth";
+import { loginAction } from "app/login/loginAction";
 import Page from "lib/components/Page";
 import { pushApiNotification } from "lib/helpers/notificationsHelper";
 import { useSession } from "next-auth/react";
@@ -38,22 +38,18 @@ export default function RegsiterForm() {
 
       pushApiNotification({
         state: "success",
-        message: "Registro bem-sucedido! Efetuando login...",
+        message: "Sucesso! Efetuando login...",
       });
 
-      const loginRes = await signIn("credentials", {
-        username: values.username,
-        password: values.password,
-        redirect: false,
-      });
-
-      if (loginRes?.error) {
-        pushApiNotification({ state: "error", message: loginRes.error });
-      } else {
-        pushApiNotification({
-          state: "success",
-          message: "Login realizado com sucesso!",
-        });
+      const loginRes = await loginAction(values);
+      if (loginRes) {
+        if (loginRes.state === "success") {
+          router.push("/dashboard");
+        } else {
+          pushApiNotification(
+            loginRes as { state: "success" | "error"; message: string }
+          );
+        }
       }
     } catch (err) {
       pushApiNotification({

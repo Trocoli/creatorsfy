@@ -25,12 +25,6 @@ const LoginForm = () => {
           message:
             "Nome de usuário ou senha inválidos, verifique suas credenciais e tente novamente.",
         });
-      } else {
-        pushApiNotification({
-          state: "success",
-          message: "Sucesso ao fazer login.",
-        });
-        router.push("/dashboard");
       }
     } catch (err) {
       setIsLoading(false);
@@ -39,6 +33,12 @@ const LoginForm = () => {
         state: "error",
         message: "Ocorreu um erro inesperado. Tente novamente mais tarde.",
       });
+    } finally {
+      pushApiNotification({
+        state: "success",
+        message: "Sucesso ao fazer login.",
+      });
+      router.push("/dashboard");
     }
   };
 

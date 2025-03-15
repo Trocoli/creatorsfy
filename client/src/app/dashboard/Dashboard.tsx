@@ -14,7 +14,7 @@ export default function DashboardPage() {
       message: "Logout realizado com sucesso!",
     });
 
-    await logout(); // Calls the server action and redirects to login
+    await logout();
   };
 
   return (
@@ -28,7 +28,9 @@ export default function DashboardPage() {
     >
       <Flex>
         {status === "loading" && <h1>carregando informacoes do usuario...</h1>}
-        {!session && <h1>Usuario nao esta autenticado.</h1>}
+        {!session && status !== "loading" && (
+          <h1>Usuario nao esta autenticado.</h1>
+        )}
 
         <Space>
           <h1>{session?.user?.username}</h1>
