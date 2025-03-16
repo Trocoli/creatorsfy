@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function RegsiterForm() {
-  const { data: session } = useSession(); // 🔥 Detect if user is logged in
+  const { data: session } = useSession();
   const router = useRouter();
 
   useEffect(() => {

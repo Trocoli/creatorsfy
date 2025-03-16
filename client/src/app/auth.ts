@@ -28,7 +28,7 @@ export const authOptions: NextAuthConfig = {
         if (!res.ok) {
           try {
             const errorData = await res.json();
-            console.error("Login error response from NestJS =>", errorData);
+            console.error("Login error response do NestJS =>", errorData);
 
             if (errorData?.message) {
               errorMessage = errorData.message;
@@ -42,7 +42,7 @@ export const authOptions: NextAuthConfig = {
 
         const data = await res.json();
 
-        // Se não receber o token ou não receber userInfo retorar erro
+        // Se não receber o token ou não receber userInfo retornar erro
         if (!data.token || !data.userInfo) {
           return null;
         }
