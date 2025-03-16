@@ -1,10 +1,6 @@
-import { SessionProvider } from "next-auth/react";
 import DashboardPage from "./Dashboard";
+import ProtectedRoute from "app/ProtectedRoute";
 
 export default function Dashboard() {
-  return (
-    <SessionProvider>
-      <DashboardPage />
-    </SessionProvider>
-  );
+  return <ProtectedRoute component={DashboardPage} />;
 }

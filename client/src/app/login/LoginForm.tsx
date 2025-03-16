@@ -12,6 +12,7 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values: { username: string; password: string }) => {
+    let loginSuccess = false;
     try {
       setIsLoading(true);
       const res = await signIn("credentials", {
@@ -26,6 +27,8 @@ const LoginForm = () => {
           message:
             "Nome de usuário ou senha inválidos, verifique suas credenciais e tente novamente.",
         });
+      } else {
+        loginSuccess = true;
       }
     } catch (err) {
       setIsLoading(false);
@@ -35,11 +38,13 @@ const LoginForm = () => {
         message: "Ocorreu um erro inesperado. Tente novamente mais tarde.",
       });
     } finally {
-      pushApiNotification({
-        state: "success",
-        message: "Sucesso ao fazer login.",
-      });
-      router.push("/dashboard");
+      if (loginSuccess) {
+        router.push("/dashboard");
+        pushApiNotification({
+          state: "success",
+          message: "Sucesso ao fazer login.",
+        });
+      }
     }
   };
 

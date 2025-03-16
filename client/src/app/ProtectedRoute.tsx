@@ -1,18 +1,21 @@
-import { useAppSelector } from "data/api/services/hooks";
+"use client";
 import React from "react";
-import { selectIsLoggedIn } from "./slices/authSlice";
-import { useRouter } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
+import { useSession } from "next-auth/react";
+import LoadingSpinner from "lib/components/LoadingSpinner";
 interface PrivateRouteProps {
   component: React.ElementType;
-  permissoes: string[];
 }
 
 const ProtectedRoute = ({ component: Component }: PrivateRouteProps) => {
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const router = useRouter();
+  const { data: session, status } = useSession();
 
-  if (!isLoggedIn) {
-    router.push("/login");
+  if (!session && status !== "loading") {
+    redirect("/login", RedirectType.replace);
+  }
+
+  if (status == "loading") {
+    return <LoadingSpinner />;
   }
 
   return <Component />;

@@ -6,33 +6,23 @@ import { logout } from "./logoutAction";
 import { pushApiNotification } from "lib/helpers/notificationsHelper";
 import FaturamentoTotalizador from "./components/FaturamentoTotalizador";
 import GraficoPedidosPorTempo from "./components/GraficoPedidosPorTempo";
-import { useRouter } from "next/navigation";
 import PedidosListagem from "./components/PedidosListagem";
 
 export default function DashboardPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session } = useSession();
 
   const handleLogout = async () => {
-    pushApiNotification({
-      state: "success",
-      message: "Logout realizado com sucesso!",
-    });
-
-    await logout();
+    try {
+      await logout();
+    } catch {
+      console.log("error logging out");
+    } finally {
+      pushApiNotification({
+        state: "success",
+        message: "Logout realizado com sucesso!",
+      });
+    }
   };
-
-  if (!session && status !== "loading") {
-    router.push("/login");
-  }
-
-  // {!session && status !== "loading" && (
-  //   <h1>Usuario nao esta autenticado.</h1>
-  // )}
-
-  // {status === "loading" && (
-  //   <h1>carregando informacoes do usuario...</h1>
-  // )}
 
   return (
     <Page
@@ -44,7 +34,7 @@ export default function DashboardPage() {
       }}
     >
       <Row justify={"center"}>
-        <Col xs={20} sm={20} md={16} lg={22} xl={22}>
+        <Col xs={20} sm={20} md={18} lg={16} xl={12}>
           <Space
             size={"middle"}
             direction="vertical"

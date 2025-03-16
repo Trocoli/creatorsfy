@@ -80,6 +80,20 @@ const data: DataType[] = [
     address: "Sydney No. 1 Lake Park",
     tags: ["cool", "teacher"],
   },
+  {
+    key: "4",
+    name: "Joe Black",
+    age: 32,
+    address: "Sydney No. 1 Lake Park",
+    tags: ["cool", "teacher"],
+  },
+  {
+    key: "5",
+    name: "Joe Black",
+    age: 32,
+    address: "Sydney No. 1 Lake Park",
+    tags: ["cool", "teacher"],
+  },
 ];
 
 export default function PedidosListagem() {

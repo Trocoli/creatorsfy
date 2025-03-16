@@ -22,24 +22,9 @@ export const authOptions: NextAuthConfig = {
           }),
         });
 
-        let errorMessage =
-          "Login falhou, verifique suas credenciais e tente novamente"; // Default message
-
         if (!res.ok) {
-          try {
-            const errorData = await res.json();
-            console.error("Login error response do NestJS =>", errorData);
-
-            if (errorData?.message) {
-              errorMessage = errorData.message;
-            }
-          } catch (error) {
-            console.error("Error reading JSON body:", error);
-          }
-
-          throw new Error(errorMessage);
+          return null;
         }
-
         const data = await res.json();
 
         // Se não receber o token ou não receber userInfo retornar erro
