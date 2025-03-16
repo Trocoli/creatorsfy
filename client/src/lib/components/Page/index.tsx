@@ -3,6 +3,7 @@ import React from "react";
 import NotificationsManager from "../NotificationManager";
 import CustomHeader from "../CustomHeader";
 import { CustomHeaderProps } from "../CustomHeader";
+import Container from "../Container";
 
 export type PageProps = {
   title?: string;
@@ -13,15 +14,6 @@ const titleStyle: React.CSSProperties = {
   fontSize: "1.5rem",
   fontWeight: "bold",
   marginBottom: "20px",
-};
-
-const contentStyle: React.CSSProperties = {
-  display: "flex",
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "start",
-  width: "100%",
-  marginTop: 2,
 };
 
 const footerStyle: React.CSSProperties = {
@@ -36,7 +28,6 @@ const layoutStyle: React.CSSProperties = {
   alignItems: "center",
   borderRadius: 8,
   height: "100vh",
-  width: "100%",
 };
 
 export default function Page({
@@ -45,12 +36,34 @@ export default function Page({
   action,
   loggedUser,
 }: PageProps) {
+  const contentStyle: React.CSSProperties = {
+    display: "flex",
+    justifyItems: "center",
+    alignItems: "start",
+    width: "100%",
+    marginTop: 2,
+  };
+
   // # implementar loading state
   // # set Header logout options
   const { Content, Footer } = Layout;
   return (
     <ConfigProvider
       theme={{
+        components: {
+          Button: {
+            borderRadiusLG: 20,
+          },
+          Card: {
+            boxShadow: "5",
+            colorBgContainer: "#f2f2f2",
+            lineType: "solid",
+            lineWidth: 0.5,
+            colorBorderSecondary: "#8FF3B1",
+            colorPrimaryBorderHover: "#000000",
+            bodyPadding: 25,
+          },
+        },
         token: {
           fontFamily: "var(--font-geist-mono)",
           colorBgLayout: "#fafaf9",
@@ -60,11 +73,6 @@ export default function Page({
           colorHighlight: "#00be43",
           colorInfo: "#e54f6d",
         },
-        components: {
-          Button: {
-            borderRadiusLG: 20,
-          },
-        },
       }}
     >
       <Layout style={layoutStyle}>
@@ -73,7 +81,9 @@ export default function Page({
         <Typography style={titleStyle}>{title}</Typography>
         <Content style={contentStyle}>
           <NotificationsManager />
-          {children}
+          <Container fluid="xl" flex column grow>
+            {children}
+          </Container>
         </Content>
         <Footer style={footerStyle}>@Creatorsfy</Footer>
       </Layout>

@@ -21,3 +21,7 @@ body {
 .ant-input-password {
   border-radius: 0 !important;
 }
+
+.antd-card {
+  border-color: "#00be43" !important;
+}
