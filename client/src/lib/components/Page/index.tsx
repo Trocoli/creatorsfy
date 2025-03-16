@@ -27,7 +27,6 @@ const layoutStyle: React.CSSProperties = {
   flexDirection: "column",
   alignItems: "center",
   borderRadius: 8,
-  height: "100vh",
 };
 
 export default function Page({

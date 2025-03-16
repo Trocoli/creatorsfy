@@ -6,9 +6,12 @@ import { logout } from "./logoutAction";
 import { pushApiNotification } from "lib/helpers/notificationsHelper";
 import FaturamentoTotalizador from "./components/FaturamentoTotalizador";
 import GraficoPedidosPorTempo from "./components/GraficoPedidosPorTempo";
+import { useRouter } from "next/navigation";
+import PedidosListagem from "./components/PedidosListagem";
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   const handleLogout = async () => {
     pushApiNotification({
@@ -19,8 +22,16 @@ export default function DashboardPage() {
     await logout();
   };
 
+  if (!session && status !== "loading") {
+    router.push("/login");
+  }
+
   // {!session && status !== "loading" && (
   //   <h1>Usuario nao esta autenticado.</h1>
+  // )}
+
+  // {status === "loading" && (
+  //   <h1>carregando informacoes do usuario...</h1>
   // )}
 
   return (
@@ -32,22 +43,28 @@ export default function DashboardPage() {
         action: handleLogout,
       }}
     >
-      <Row justify={"center"} style={{ display: "flex", width: "100%" }}>
-        <Col span={24}>
-          {status === "loading" && (
-            <h1>carregando informacoes do usuario...</h1>
-          )}
+      <Row justify={"center"}>
+        <Col xs={20} sm={20} md={16} lg={22} xl={22}>
           <Space
+            size={"middle"}
             direction="vertical"
-            size="small"
-            style={{ display: "flex", justifyContent: "center" }}
+            className="w-full flex justify-center"
           >
-            <Col sm={10} md={18} lg={20} xl={24}>
-              <FaturamentoTotalizador />
-            </Col>
-            <Col xs={20} sm={24} md={20} lg={24} xl={24}>
-              <GraficoPedidosPorTempo />
-            </Col>
+            <Row>
+              <Col span={24}>
+                <FaturamentoTotalizador />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <GraficoPedidosPorTempo />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <PedidosListagem />
+              </Col>
+            </Row>
           </Space>
         </Col>
       </Row>

@@ -15,20 +15,6 @@ export default function GraficoPedidosPorTempo() {
     { letter: "J", frequency: 153 },
     { letter: "K", frequency: 772 },
     { letter: "L", frequency: 4025 },
-    { letter: "M", frequency: 2406 },
-    { letter: "N", frequency: 6749 },
-    { letter: "O", frequency: 7507 },
-    { letter: "P", frequency: 1929 },
-    { letter: "Q", frequency: 95 },
-    { letter: "R", frequency: 5987 },
-    { letter: "S", frequency: 6327 },
-    { letter: "T", frequency: 9056 },
-    { letter: "U", frequency: 2758 },
-    { letter: "V", frequency: 978 },
-    { letter: "W", frequency: 236 },
-    { letter: "X", frequency: 15 },
-    { letter: "Y", frequency: 1974 },
-    { letter: "Z", frequency: 74 },
   ];
 
   const config = {
@@ -36,7 +22,6 @@ export default function GraficoPedidosPorTempo() {
     xField: "letter",
     yField: "frequency",
     autoFit: true,
-    maxHeight: "10px",
     onReady: ({ chart }: Chart) => {
       try {
         const { height } = chart._container.getBoundingClientRect();
@@ -48,7 +33,7 @@ export default function GraficoPedidosPorTempo() {
               data: {
                 data: tooltipItem,
               },
-              offsetY: height / 2 - 60,
+              offsetY: height / 2 - 600,
             });
           },
           true
@@ -64,7 +49,8 @@ export default function GraficoPedidosPorTempo() {
       <Column
         {...Column}
         {...config}
-        containerStyle={{ display: "flex", maxHeight: "calc(100vh-200)" }}
+        containerStyle={{ display: "flex" }}
+        className={"max-h-70"}
         colorField={"#0EAF45"}
       />
     </Card>
