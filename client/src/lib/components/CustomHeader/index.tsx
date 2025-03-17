@@ -18,7 +18,7 @@ const CustomHeader = (props: CustomHeaderProps) => {
 
   const { Header } = Layout;
   return (
-    <Header style={headerStyle}>
+    <Header {...Header} style={headerStyle}>
       <div style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Creatorsfy.</div>
       <Space direction="vertical" size={0.5} style={{ display: "flex" }}>
         {loggedUser && action && (

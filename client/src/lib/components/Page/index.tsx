@@ -45,8 +45,6 @@ export default function Page({
     marginTop: 2,
   };
 
-  // # implementar loading state
-  // # set Header logout options
   const { Content, Footer } = Layout;
   return (
     <ConfigProvider

@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { User } from './modules/user/user.entity'
 import { AuthModule } from './modules/auth/auth.module'
 import { MongooseModule } from '@nestjs/mongoose'
+import { WebhookController } from './modules/order/order.controller'
+import { OrdersModule } from './modules/order/order.module'
 
 @Module({
   imports: [
@@ -16,10 +18,11 @@ import { MongooseModule } from '@nestjs/mongoose'
       entities: [User],
       synchronize: true,
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/creatorsfy'),
+    MongooseModule.forRoot('mongodb://localhost:27017/creatorsfy', {}),
     AuthModule,
+    OrdersModule,
   ],
-  controllers: [],
+  controllers: [WebhookController],
   providers: [],
 })
 export class AppModule {}
