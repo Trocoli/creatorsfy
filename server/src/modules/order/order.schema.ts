@@ -10,7 +10,7 @@ export class Order {
   id!: string
 
   @Prop()
-  createdAt!: Date
+  createdAt!: string
 
   @Prop()
   amount!: number
