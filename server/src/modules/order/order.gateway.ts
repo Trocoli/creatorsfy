@@ -1,14 +1,12 @@
 // orders.gateway.ts
 import {
-  WebSocketGateway,
-  WebSocketServer,
-  SubscribeMessage,
-  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets'
+import { OrderDto } from 'shared/orders/oder.dto'
 import { Server, Socket } from 'socket.io'
-import { OrderDto } from './order.dto'
 
 @WebSocketGateway({
   cors: {

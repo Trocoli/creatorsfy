@@ -1,10 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { FilterQuery, Model } from 'mongoose'
-import { OrderDto } from './order.dto'
+import { OrderDto } from 'shared/orders/oder.dto'
+import {
+  DayTime,
+  FilteredOrdersPageResultDto,
+  OrderByDateParams,
+  OrdersByHour,
+} from 'shared/orders/types'
 import { Order, OrderDocument } from './order.schema'
-import { FilteredOrdersPageResultDto } from './orderPageResult.dto'
-import { DayTime, OrderByDateParams, OrdersByHour } from './types'
 
 @Injectable()
 export class OrderService {

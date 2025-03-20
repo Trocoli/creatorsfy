@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common'
-import { OrderDto } from './order.dto'
+import { OrderDto } from 'shared/orders/oder.dto'
+import { OrderByDateParams } from 'shared/orders/types'
 import { OrderService } from './order.service'
-import { OrderByDateParams } from './types'
 
 @Controller('webhook')
 export class WebhookController {

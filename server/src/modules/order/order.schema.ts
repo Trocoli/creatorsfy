@@ -1,7 +1,7 @@
 // schemas/order.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
-import { Currency, Status } from './types'
+import { Currency, Status } from 'shared/orders/types'
 
 export type OrderDocument = Order & Document<Order, undefined, JSON>
 
