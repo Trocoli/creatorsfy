@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { FilterQuery, Model } from 'mongoose'
+import { OrderDto } from './order.dto'
 import { Order, OrderDocument } from './order.schema'
-import { OrderByDateParams } from './types'
+import { FilteredOrdersPageResultDto } from './orderPageResult.dto'
+import { DayTime, OrderByDateParams, OrdersByHour } from './types'
 
 @Injectable()
 export class OrderService {
@@ -17,7 +19,7 @@ export class OrderService {
   //     return this.orderModel.find().exec()
   //   }
 
-  async getOrdersByDate(params: OrderByDateParams): Promise<Order[]> {
+  async getOrdersByDate(params: OrderByDateParams): Promise<FilteredOrdersPageResultDto> {
     const { initialDate, endDate } = params
     const filter: FilterQuery<OrderDocument> = {}
     if (initialDate && endDate) {
@@ -27,6 +29,46 @@ export class OrderService {
     } else if (endDate) {
       filter.createdAt = { $lte: endDate }
     }
-    return this.orderModel.find(filter).exec()
+    const data = await this.orderModel.find(filter).exec()
+
+    if (!data.length) {
+      throw new HttpException(
+        'Nenhum pedido foi encontrado para as datas informadas.',
+        HttpStatus.NOT_FOUND
+      )
+    }
+
+    const orders: OrderDto[] = data.map((order) => {
+      return {
+        id: order.id,
+        createdAt: order.createdAt,
+        amount: order.amount,
+        currency: order.currency,
+        product: order.product,
+        status: order.status,
+      }
+    })
+
+    // calcular faturamento total
+    const totalAmount = data.reduce((sum, doc) => sum + doc.amount, 0)
+
+    const hoursMap: Record<number, number> = {}
+
+    data.forEach((order) => {
+      const dateObj = new Date(order.createdAt)
+      const hour = dateObj.getHours() // 0..23
+      hoursMap[hour] = (hoursMap[hour] || 0) + 1
+    })
+
+    const ordersByHour: OrdersByHour[] = Object.entries(hoursMap).map(([hour, total]) => ({
+      hour: +hour as DayTime,
+      totalOrders: total,
+    }))
+
+    return {
+      orders,
+      totalAmount,
+      ordersByHour,
+    }
   }
 }

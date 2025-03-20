@@ -1,8 +1,9 @@
 // schemas/order.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
+import { Currency, Status } from './types'
 
-export type OrderDocument = Order & Document
+export type OrderDocument = Order & Document<Order, undefined, JSON>
 
 @Schema()
 export class Order {
@@ -16,13 +17,13 @@ export class Order {
   amount!: number
 
   @Prop()
-  currency!: string
+  currency!: Currency
 
   @Prop()
   product!: string
 
   @Prop()
-  status!: string
+  status!: Status
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order)
