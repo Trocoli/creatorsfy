@@ -1,0 +1,28 @@
+{
+  "name": "creatorsfy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\" ",
+    "server": "cd server && npm run start:dev",
+    "client": "cd client && npm run dev",
+    "postinstall": "concurrently --kill-others-on-fail \"cd client && npm install\" \"cd server && npm install\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Trocoli/creatorsfy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Trocoli/creatorsfy/issues"
+  },
+  "homepage": "https://github.com/Trocoli/creatorsfy#readme",
+  "devDependencies": {
+    "concurrently": "^7.3.0"
+  }
+}

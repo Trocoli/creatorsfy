@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": " nest build",
-    "start": "nest start",
+    "start": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

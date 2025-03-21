@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -10,9 +10,19 @@ import { Form, Row, Col, Input, Button, Typography } from "antd";
 const LoginForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+
+  useEffect(() => {
+    if (loginSuccess) {
+      router.push("/dashboard");
+      pushApiNotification({
+        state: "success",
+        message: "Sucesso ao fazer login.",
+      });
+    }
+  }, [loginSuccess, router]);
 
   const onFinish = async (values: { username: string; password: string }) => {
-    let loginSuccess = false;
     try {
       setIsLoading(true);
       const res = await signIn("credentials", {
@@ -28,7 +38,7 @@ const LoginForm = () => {
             "Nome de usuário ou senha inválidos, verifique suas credenciais e tente novamente.",
         });
       } else {
-        loginSuccess = true;
+        setLoginSuccess(true);
       }
     } catch (err) {
       setIsLoading(false);
@@ -37,14 +47,6 @@ const LoginForm = () => {
         state: "error",
         message: "Ocorreu um erro inesperado. Tente novamente mais tarde.",
       });
-    } finally {
-      if (loginSuccess) {
-        router.push("/dashboard");
-        pushApiNotification({
-          state: "success",
-          message: "Sucesso ao fazer login.",
-        });
-      }
     }
   };
 
