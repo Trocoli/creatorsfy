@@ -22,7 +22,7 @@
 
    ```shell
    docker run -d \
-   --name mongodb \
+   --name mongodb-creators \
    -p 27017:27017 \
    mongo:latest
    ```
@@ -33,6 +33,6 @@
    npm start
    ```
 
-5. 1. Clone the webhook service from [Creatorsfy-Webhook](https://github.com/Trocoli/creatorsfy-webhook#) and follow the instructions in the README.md
+5. Clone the webhook service from [Creatorsfy-Webhook](https://github.com/Trocoli/creatorsfy-webhook#) and follow the instructions in the README.md
 
 6. Go the Frontend Next.js Application running on <https://localhost:3000>
