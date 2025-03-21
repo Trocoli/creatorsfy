@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { MongooseModule } from '@nestjs/mongoose/dist/mongoose.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { User } from './modules/user/user.entity'
 import { AuthModule } from './modules/auth/auth.module'
-import { MongooseModule } from '@nestjs/mongoose'
 import { WebhookController } from './modules/order/order.controller'
 import { OrdersModule } from './modules/order/order.module'
+import { User } from './modules/user/user.entity'
 
 @Module({
   imports: [
@@ -19,6 +19,7 @@ import { OrdersModule } from './modules/order/order.module'
       synchronize: true,
     }),
     MongooseModule.forRoot('mongodb://localhost:27017/creatorsfy', {}),
+    //testing something
     AuthModule,
     OrdersModule,
   ],
