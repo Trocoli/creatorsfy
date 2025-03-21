@@ -13,7 +13,7 @@ export const authOptions: NextAuthConfig = {
       async authorize(credentials) {
         if (!credentials) return null;
 
-        const res = await fetch("http://localhost:8443/auth/login", {
+        const res = await fetch("http://localhost:8181/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

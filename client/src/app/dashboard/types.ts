@@ -1,6 +1,6 @@
 export type Order = {
   id: string;
-  createdAt: Date;
+  createdAt: string;
   amount: number;
   currency: "BRL";
   product: string;

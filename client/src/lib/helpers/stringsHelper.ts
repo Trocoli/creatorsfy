@@ -19,3 +19,10 @@ export const splitAndTitleCase = (
 
   return toTitleCase(value.split(splitToken).join(" "));
 };
+
+export function formatarValorEmReais(value: number): string {
+  return value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}

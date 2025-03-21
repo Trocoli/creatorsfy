@@ -6,7 +6,7 @@ type InputValue = string | null | undefined;
 
 type DateTimeParser<T> = (value: InputValue, format?: InputFormat) => T | null;
 
-const getDayJsDate: DateTimeParser<dayjs.Dayjs> = (value, format) => {
+export const getDayJsDate: DateTimeParser<dayjs.Dayjs> = (value, format) => {
   if (!value) {
     return null;
   }

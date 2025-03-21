@@ -7,9 +7,29 @@ import { pushApiNotification } from "lib/helpers/notificationsHelper";
 import FaturamentoTotalizador from "./components/FaturamentoTotalizador";
 import GraficoPedidosPorTempo from "./components/GraficoPedidosPorTempo";
 import PedidosListagem from "./components/PedidosListagem";
+import { useGetOrdersByDateQuery } from "data/api/services/orderServices";
+import { useAppSelector } from "data/api/services/hooks";
+import {
+  selectEndDate,
+  selectInitialDate,
+  selectLimit,
+  selectPage,
+} from "data/api/services/orderServices/OrderFilterSlice";
 
 export default function DashboardPage() {
   const { data: session } = useSession();
+
+  const initialDate = useAppSelector(selectInitialDate);
+  const endDate = useAppSelector(selectEndDate);
+  const page = useAppSelector(selectPage);
+  const limit = useAppSelector(selectLimit);
+
+  const { data, isLoading } = useGetOrdersByDateQuery({
+    initialDate,
+    endDate,
+    page,
+    limit,
+  });
 
   const handleLogout = async () => {
     try {
@@ -42,17 +62,28 @@ export default function DashboardPage() {
           >
             <Row>
               <Col span={24}>
-                <FaturamentoTotalizador />
+                <FaturamentoTotalizador
+                  totalAmount={data?.totalAmount ?? 0}
+                  isLoading={isLoading}
+                  initialDate={data?.firstDate}
+                  finalDate={data?.lastDate}
+                />
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <GraficoPedidosPorTempo />
+                <GraficoPedidosPorTempo
+                  ordersByHour={data?.ordersByHour || []}
+                />
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <PedidosListagem />
+                <PedidosListagem
+                  orders={data?.orders}
+                  isLoading={isLoading}
+                  totalElements={data?.totalElements ?? 0}
+                />
               </Col>
             </Row>
           </Space>

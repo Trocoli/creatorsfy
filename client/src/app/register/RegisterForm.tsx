@@ -24,7 +24,7 @@ export default function RegsiterForm() {
     store: string;
   }) => {
     try {
-      const registerRes = await fetch("http://localhost:8443/auth/register", {
+      const registerRes = await fetch("http://localhost:8181/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),

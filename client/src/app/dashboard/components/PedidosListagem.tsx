@@ -1,105 +1,102 @@
 import React from "react";
-import { Card, Space, Table, Tag } from "antd";
+import { Card, Table, Tag, Typography } from "antd";
 import type { TableProps } from "antd";
+import { Order, StatusEnum } from "data/api/services/orderServices/types";
+import LoadingSpinner from "lib/components/LoadingSpinner";
+import { dateTimeFormatter } from "lib/helpers/date/dateTimeFormatter";
+import { useAppDispatch, useAppSelector } from "data/api/services/hooks";
+import {
+  selectLimit,
+  selectPage,
+  setPage,
+  setLimit,
+} from "data/api/services/orderServices/OrderFilterSlice";
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
+interface PedidosListagemProps {
+  orders?: Order[];
+  totalElements: number;
+  isLoading?: boolean;
 }
-const columns: TableProps<DataType>["columns"] = [
+
+const columns: TableProps<Order>["columns"] = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: (text) => <a>{text}</a>,
+    title: "Id",
+    dataIndex: "id",
+    key: "id",
+    render: (text) => <a>#{text.split("-")[2]}</a>,
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "Data pedido",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    render: (text) => dateTimeFormatter(text).format("DD/MM/YYYY - HH:mm"),
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
+    title: "Valor",
+    dataIndex: "amount",
+    key: "amount",
+    render: (text) => <Typography>R${text},00</Typography>,
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
+    title: "Id produto",
+    dataIndex: "product",
+    key: "product",
+    render: (text) => <Typography>{text.split("-")[3]}</Typography>,
+  },
+  {
+    title: "Status",
+    key: "status",
+    dataIndex: "status",
+    render: (_, order) => (
       <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
+        {
+          <Tag
+            color={`${
+              order.status === StatusEnum.APPROVED
+                ? "green"
+                : order.status === StatusEnum.PEDING
+                ? "geekblue"
+                : "volcano"
+            }`}
+            key={order.id}
+          >
+            {order.status}
+          </Tag>
+        }
       </>
     ),
   },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-  {
-    key: "4",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-  {
-    key: "5",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-];
+export default function PedidosListagem({
+  orders,
+  isLoading,
+  totalElements,
+}: PedidosListagemProps) {
+  const dispatch = useAppDispatch();
+  const page = useAppSelector(selectPage);
+  const limit = useAppSelector(selectLimit);
 
-export default function PedidosListagem() {
   return (
     <Card>
-      <Table<DataType> columns={columns} dataSource={data} />
+      {!orders && isLoading && <LoadingSpinner />}
+      {!orders && !isLoading && (
+        <Typography>Nenhum pedido encontrado.</Typography>
+      )}
+      <Table<Order>
+        columns={columns}
+        dataSource={orders}
+        pagination={{
+          current: page,
+          pageSize: limit,
+          total: totalElements,
+          pageSizeOptions: [10, 20, 30, 40, 50],
+          onChange: (page, pageSize) => {
+            dispatch(setPage(page));
+            dispatch(setLimit(pageSize));
+          },
+        }}
+      />
     </Card>
   );
 }

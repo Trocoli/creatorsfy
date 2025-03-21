@@ -1,26 +1,20 @@
 import { Column, type Chart } from "@ant-design/plots";
 import { Card } from "antd";
+import { OrdersByHour } from "data/api/services/orderServices/types";
 
-export default function GraficoPedidosPorTempo() {
-  const data = [
-    { time: "0h", amount: 150 },
-    { time: "2h", amount: 100 },
-    { time: "4h", amount: 50 },
-    { time: "6h", amount: 150 },
-    { time: "8h", amount: 200 },
-    { time: "10h", amount: 550 },
-    { time: "12h", amount: 650 },
-    { time: "13h", amount: 750 },
-    { time: "14h", amount: 550 },
-    { time: "16", amount: 153 },
-    { time: "18", amount: 972 },
-    { time: "20", amount: 550 },
-  ];
+interface GraficoPedidosPorTempoProps {
+  ordersByHour: OrdersByHour[];
+}
+
+export default function GraficoPedidosPorTempo({
+  ordersByHour,
+}: GraficoPedidosPorTempoProps) {
+  const data = ordersByHour;
 
   const config = {
     data,
-    xField: "letter",
-    yField: "frequency",
+    xField: "hour",
+    yField: "totalOrders",
     autoFit: true,
     onReady: ({ chart }: Chart) => {
       try {
@@ -31,7 +25,7 @@ export default function GraficoPedidosPorTempo() {
           () => {
             chart.emit("tooltip:show", {
               data: {
-                data: tooltipItem,
+                data: { tooltipItem },
               },
               offsetY: height / 2 - 600,
             });
@@ -50,7 +44,8 @@ export default function GraficoPedidosPorTempo() {
         {...Column}
         {...config}
         containerStyle={{ display: "flex" }}
-        className={"max-h-70"}
+        title={"Pedidos Por Hora"}
+        className={"max-h-85"}
         colorField={"#468189"} // --blue-teal
       />
     </Card>
