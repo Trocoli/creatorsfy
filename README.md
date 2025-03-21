@@ -4,7 +4,7 @@
 
 1. [ Node 22+](https://nodejs.org/en/download)
 
-2. [Install Bun](https://bun.sh/docs/installation)
+2. [Bun](https://bun.sh/docs/installation)
 
 3. [Docker](https://docs.docker.com/engine/install/)
 
