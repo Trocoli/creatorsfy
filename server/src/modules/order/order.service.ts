@@ -1,30 +1,30 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { FilterQuery, Model } from 'mongoose'
-import { OrderDto } from 'shared/orders/oder.dto'
-import {
-  DayTime,
-  FilteredOrdersPageResultDto,
-  OrderByDateParams,
-  OrdersByHour,
-} from 'shared/orders/types'
 import { Order, OrderDocument } from './order.schema'
+import { OrderDto } from './order.dto'
+import { OrderByDateParams, FilteredOrdersPageResultDto, OrdersByHour, DayTime } from './types'
+import { first } from 'rxjs'
 
 @Injectable()
 export class OrderService {
   constructor(@InjectModel(Order.name) private orderModel: Model<OrderDocument>) {}
 
-  //   async saveOrder(orderDto: OrderDto): Promise<Order> {
-  //     const createOrder = new this.orderModel(orderDto)
-  //     return createOrder.save()
-  //   }
+  async saveOrder(orderDto: OrderDto): Promise<Order> {
+    const createOrder = new this.orderModel(orderDto)
+    if (orderDto.currency === 'BRL') {
+      return createOrder.save()
+    }
+    return createOrder
+  }
 
   //   async findAll(): Promise<Order[]> {
   //     return this.orderModel.find().exec()
   //   }
 
   async getOrdersByDate(params: OrderByDateParams): Promise<FilteredOrdersPageResultDto> {
-    const { initialDate, endDate } = params
+    const { initialDate, endDate, page = 1, limit = 10 } = params
+
     const filter: FilterQuery<OrderDocument> = {}
     if (initialDate && endDate) {
       filter.createdAt = { $gte: initialDate, $lte: endDate }
@@ -33,16 +33,39 @@ export class OrderService {
     } else if (endDate) {
       filter.createdAt = { $lte: endDate }
     }
-    const data = await this.orderModel.find(filter).exec()
 
-    if (!data.length) {
+    const allDocs = await this.orderModel.find(filter).exec()
+    if (!allDocs.length) {
       throw new HttpException(
         'Nenhum pedido foi encontrado para as datas informadas.',
         HttpStatus.NOT_FOUND
       )
     }
 
-    const orders: OrderDto[] = data.map((order) => {
+    // calcular faturamento total
+    const totalAmount = allDocs.reduce((sum, doc) => sum + doc.amount, 0)
+    const totalElements = allDocs.length
+    const totalPages = totalElements / limit
+
+    const createdDates = allDocs.map((order) => new Date(order.createdAt).getTime())
+    let firstDate = new Date(Math.min(...createdDates))
+    let lastDate = new Date(Math.max(...createdDates))
+
+    const hoursMap: Record<number, number> = {}
+    allDocs.forEach((order) => {
+      const dateObj = new Date(order.createdAt)
+      const hour = dateObj.getHours() // 0..23
+      hoursMap[hour] = (hoursMap[hour] || 0) + 1
+    })
+    const ordersByHour: OrdersByHour[] = Object.entries(hoursMap).map(([hour, total]) => ({
+      hour: hour.toString() + 'h ',
+      totalOrders: total,
+    }))
+
+    const skipCount = (page - 1) * limit
+    const paginatedOrders = await this.orderModel.find(filter).skip(skipCount).limit(limit).exec()
+
+    const orders: OrderDto[] = paginatedOrders.map((order) => {
       return {
         id: order.id,
         createdAt: order.createdAt,
@@ -53,25 +76,13 @@ export class OrderService {
       }
     })
 
-    // calcular faturamento total
-    const totalAmount = data.reduce((sum, doc) => sum + doc.amount, 0)
-
-    const hoursMap: Record<number, number> = {}
-
-    data.forEach((order) => {
-      const dateObj = new Date(order.createdAt)
-      const hour = dateObj.getHours() // 0..23
-      hoursMap[hour] = (hoursMap[hour] || 0) + 1
-    })
-
-    const ordersByHour: OrdersByHour[] = Object.entries(hoursMap).map(([hour, total]) => ({
-      hour: +hour as DayTime,
-      totalOrders: total,
-    }))
-
     return {
       orders,
       totalAmount,
+      totalElements,
+      firstDate: firstDate.toISOString(),
+      lastDate: lastDate.toISOString(),
+      totalPages,
       ordersByHour,
     }
   }

@@ -18,8 +18,8 @@ async function bootstrap() {
     origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   })
-  const port = process.env.PORT || 8443
+  const port = 8181
   await app.listen(port)
-  console.log(`Application running on port ${port}`)
+  console.log(`App listening on port ${port}`)
 }
 bootstrap()

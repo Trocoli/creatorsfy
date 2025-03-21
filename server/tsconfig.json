@@ -19,10 +19,6 @@
     "noFallthroughCasesInSwitch": false,
 
     // custom configs
-    "strict": true,
-    "paths": {
-      "shared/*": ["../shared/src/*"] 
-    }
+    "strict": true
   }
-
 }

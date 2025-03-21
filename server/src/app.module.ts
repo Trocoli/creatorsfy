@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose/dist/mongoose.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthModule } from './modules/auth/auth.module'
-import { WebhookController } from './modules/order/order.controller'
 import { OrdersModule } from './modules/order/order.module'
 import { User } from './modules/user/user.entity'
 
@@ -23,7 +22,7 @@ import { User } from './modules/user/user.entity'
     AuthModule,
     OrdersModule,
   ],
-  controllers: [WebhookController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}
