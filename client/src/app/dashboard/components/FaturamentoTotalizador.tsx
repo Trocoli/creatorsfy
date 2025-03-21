@@ -1,4 +1,5 @@
 import { Card, Flex, Tag, Typography, DatePicker } from "antd";
+import { RangePickerProps } from "antd/es/date-picker/generatePicker/interface";
 import { useAppDispatch } from "data/api/services/hooks";
 import {
   setEndDate,
@@ -34,6 +35,10 @@ export default function FaturamentoTotalizador({
   const finalDateFormatted = finalDate
     ? dateTimeFormatter(finalDate).format("DD/MM/YYYY")
     : "Data final";
+
+  const onOK = (value: RangePickerProps["value"]) => {
+    console.log(value);
+  };
 
   return (
     <Card>
@@ -72,11 +77,19 @@ export default function FaturamentoTotalizador({
             minDate={initialDate ? dayjs(initialDate) : undefined}
             maxDate={finalDate ? dayjs(finalDate) : undefined}
             onChange={(_, dateStrings) => {
-              const initial = dateTimeParser(dateStrings[0]).getIsoString();
-              const final = dateTimeParser(dateStrings[1]).getIsoString();
-              dispatch(setInitialDate(initial));
-              dispatch(setEndDate(final));
+              console.log(dateStrings);
+              const initial = dateTimeParser(
+                dateStrings[0],
+                "DD/MM/YYYY"
+              ).getIsoString();
+              const final = dateTimeParser(
+                dateStrings[1],
+                "DD/MM/YYYY"
+              ).getIsoString();
+              dispatch(setInitialDate(initial ? initial : undefined));
+              dispatch(setEndDate(final ? final : undefined));
             }}
+            onOk={onOK}
           />
         </Flex>
       </Flex>

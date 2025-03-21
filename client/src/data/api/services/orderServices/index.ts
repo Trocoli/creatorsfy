@@ -16,6 +16,7 @@ export const ordersApiSlice = createApi({
         method: "POST",
         body: payload,
       }),
+      providesTags: ["Orders"],
     }),
   }),
 });

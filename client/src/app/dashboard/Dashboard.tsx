@@ -15,6 +15,7 @@ import {
   selectLimit,
   selectPage,
 } from "data/api/services/orderServices/OrderFilterSlice";
+import LoadingSpinner from "lib/components/LoadingSpinner";
 
 export default function DashboardPage() {
   const { data: session } = useSession();
@@ -46,49 +47,54 @@ export default function DashboardPage() {
 
   return (
     <Page
-      title="Dashboard"
+      title={session?.user?.store}
       loggedUser={session?.user?.username}
       action={{
         label: "Sair",
         action: handleLogout,
       }}
     >
-      <Row justify={"center"}>
-        <Col xs={20} sm={20} md={18} lg={16} xl={12}>
-          <Space
-            size={"middle"}
-            direction="vertical"
-            className="w-full flex justify-center"
-          >
-            <Row>
-              <Col span={24}>
-                <FaturamentoTotalizador
-                  totalAmount={data?.totalAmount ?? 0}
-                  isLoading={isLoading}
-                  initialDate={data?.firstDate}
-                  finalDate={data?.lastDate}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <GraficoPedidosPorTempo
-                  ordersByHour={data?.ordersByHour || []}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <PedidosListagem
-                  orders={data?.orders}
-                  isLoading={isLoading}
-                  totalElements={data?.totalElements ?? 0}
-                />
-              </Col>
-            </Row>
-          </Space>
-        </Col>
-      </Row>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <Row justify={"center"}>
+          <Col xs={20} sm={20} md={18} lg={16} xl={12}>
+            <Space
+              size={"middle"}
+              direction="vertical"
+              className="w-full flex justify-center"
+            >
+              <Row>
+                <Col span={24}>
+                  <FaturamentoTotalizador
+                    totalAmount={data?.totalAmount ?? 0}
+                    isLoading={isLoading}
+                    initialDate={data?.firstDate}
+                    finalDate={data?.lastDate}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <GraficoPedidosPorTempo
+                    ordersByHour={data?.ordersByHour || []}
+                    isLoading={isLoading}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <PedidosListagem
+                    orders={data?.orders}
+                    isLoading={isLoading}
+                    totalElements={data?.totalElements ?? 0}
+                  />
+                </Col>
+              </Row>
+            </Space>
+          </Col>
+        </Row>
+      )}
     </Page>
   );
 }

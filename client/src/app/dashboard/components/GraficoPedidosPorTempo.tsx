@@ -4,10 +4,12 @@ import { OrdersByHour } from "data/api/services/orderServices/types";
 
 interface GraficoPedidosPorTempoProps {
   ordersByHour: OrdersByHour[];
+  isLoading: boolean;
 }
 
 export default function GraficoPedidosPorTempo({
   ordersByHour,
+  isLoading,
 }: GraficoPedidosPorTempoProps) {
   const data = ordersByHour;
 
@@ -41,6 +43,7 @@ export default function GraficoPedidosPorTempo({
   return (
     <Card variant="outlined">
       <Column
+        loading={isLoading && !ordersByHour}
         {...Column}
         {...config}
         containerStyle={{ display: "flex" }}

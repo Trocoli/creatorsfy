@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface OrdersFilterState {
-  initialDate: string | undefined | null;
-  endDate: string | undefined | null;
+  initialDate: string | undefined;
+  endDate: string | undefined;
   page: number;
   limit: number;
 }
@@ -18,13 +18,13 @@ export const ordersFilterSlice = createSlice({
   name: "ordersFilter",
   initialState,
   reducers: {
-    setInitialDate(state, action: PayloadAction<string | undefined | null>) {
+    setInitialDate(state, action: PayloadAction<string | undefined>) {
       if (typeof action.payload != "string") {
         state.initialDate = undefined;
       }
       state.initialDate = action.payload;
     },
-    setEndDate(state, action: PayloadAction<string | undefined | null>) {
+    setEndDate(state, action: PayloadAction<string | undefined>) {
       state.endDate = action.payload;
     },
     setPage(state, action: PayloadAction<number>) {

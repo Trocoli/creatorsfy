@@ -28,24 +28,24 @@ const columns: TableProps<Order>["columns"] = [
   {
     title: "Data pedido",
     dataIndex: "createdAt",
-    key: "createdAt",
+    key: "id",
     render: (text) => dateTimeFormatter(text).format("DD/MM/YYYY - HH:mm"),
   },
   {
     title: "Valor",
     dataIndex: "amount",
-    key: "amount",
+    key: "id",
     render: (text) => <Typography>R${text},00</Typography>,
   },
   {
     title: "Id produto",
     dataIndex: "product",
-    key: "product",
+    key: "id",
     render: (text) => <Typography>{text.split("-")[3]}</Typography>,
   },
   {
     title: "Status",
-    key: "status",
+    key: "id",
     dataIndex: "status",
     render: (_, order) => (
       <>
