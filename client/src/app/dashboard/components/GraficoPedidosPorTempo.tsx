@@ -3,18 +3,18 @@ import { Card } from "antd";
 
 export default function GraficoPedidosPorTempo() {
   const data = [
-    { letter: "0h", frequency: 150 },
-    { letter: "2h", frequency: 100 },
-    { letter: "4h", frequency: 50 },
-    { letter: "6h", frequency: 150 },
-    { letter: "8h", frequency: 200 },
-    { letter: "10h", frequency: 550 },
-    { letter: "12h", frequency: 650 },
-    { letter: "13h", frequency: 750 },
-    { letter: "14h", frequency: 550 },
-    { letter: "16", frequency: 153 },
-    { letter: "18", frequency: 972 },
-    { letter: "20", frequency: 550 },
+    { time: "0h", amount: 150 },
+    { time: "2h", amount: 100 },
+    { time: "4h", amount: 50 },
+    { time: "6h", amount: 150 },
+    { time: "8h", amount: 200 },
+    { time: "10h", amount: 550 },
+    { time: "12h", amount: 650 },
+    { time: "13h", amount: 750 },
+    { time: "14h", amount: 550 },
+    { time: "16", amount: 153 },
+    { time: "18", amount: 972 },
+    { time: "20", amount: 550 },
   ];
 
   const config = {
