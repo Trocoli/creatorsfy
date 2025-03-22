@@ -3,6 +3,7 @@ import React from "react";
 import { redirect, RedirectType } from "next/navigation";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "lib/components/LoadingSpinner";
+import Page from "lib/components/Page";
 interface PrivateRouteProps {
   component: React.ElementType;
 }
@@ -15,7 +16,11 @@ const ProtectedRoute = ({ component: Component }: PrivateRouteProps) => {
   }
 
   if (status == "loading") {
-    return <LoadingSpinner />;
+    return (
+      <Page title="Creatorsfy.">
+        <LoadingSpinner />
+      </Page>
+    );
   }
 
   return <Component />;

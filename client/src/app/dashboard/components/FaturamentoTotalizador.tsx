@@ -7,7 +7,6 @@ import {
 } from "data/api/services/orderServices/OrderFilterSlice";
 import LoadingSpinner from "lib/components/LoadingSpinner";
 import dayjs from "lib/helpers/date/config";
-import { dateTimeFormatter } from "lib/helpers/date/dateTimeFormatter";
 import { dateTimeParser } from "lib/helpers/date/dateTimeParser";
 import { formatarValorEmReais } from "lib/helpers/stringsHelper";
 
@@ -27,14 +26,6 @@ export default function FaturamentoTotalizador({
   const dispatch = useAppDispatch();
 
   const { RangePicker } = DatePicker;
-
-  const initialDateFormatted = initialDate
-    ? dateTimeFormatter(initialDate).format("DD/MM/YYYY")
-    : "Data inicial";
-
-  const finalDateFormatted = finalDate
-    ? dateTimeFormatter(finalDate).format("DD/MM/YYYY")
-    : "Data final";
 
   const onOK = (value: RangePickerProps["value"]) => {
     console.log(value);
@@ -73,7 +64,10 @@ export default function FaturamentoTotalizador({
         <Flex className="max-h-10 " vertical>
           <RangePicker
             format={"DD/MM/YYYY"}
-            placeholder={[initialDateFormatted, finalDateFormatted]}
+            defaultValue={[
+              initialDate ? dayjs(initialDate) : undefined,
+              finalDate ? dayjs(finalDate) : undefined,
+            ]}
             minDate={initialDate ? dayjs(initialDate) : undefined}
             maxDate={finalDate ? dayjs(finalDate) : undefined}
             onChange={(_, dateStrings) => {
