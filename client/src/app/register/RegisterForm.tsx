@@ -1,22 +1,12 @@
 "use client";
 import { Button, Col, Form, Input, Row, Typography } from "antd";
-import { loginAction } from "app/login/loginAction";
 import Page from "lib/components/Page";
 import { pushApiNotification } from "lib/helpers/notificationsHelper";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 export default function RegsiterForm() {
-  const { data: session } = useSession();
   const router = useRouter();
-
-  useEffect(() => {
-    if (session?.user) {
-      router.push("/dashboard");
-    }
-  }, [session, router]);
 
   const onFinish = async (values: {
     username: string;
@@ -35,22 +25,11 @@ export default function RegsiterForm() {
       if (!registerRes.ok) {
         throw new Error(registerData.message || "Erro ao registrar.");
       }
-
+      router.push("/login");
       pushApiNotification({
         state: "success",
-        message: "Sucesso! Efetuando login...",
+        message: "Registro concluído com sucesso.",
       });
-
-      const loginRes = await loginAction(values);
-      if (loginRes) {
-        if (loginRes.state === "success") {
-          router.push("/dashboard");
-        } else {
-          pushApiNotification(
-            loginRes as { state: "success" | "error"; message: string }
-          );
-        }
-      }
     } catch (err) {
       pushApiNotification({
         state: "error",

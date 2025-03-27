@@ -23,11 +23,6 @@ export class WebhookController {
   @HttpCode(200)
   async handleOrderWebhook(@Body() orderData: OrderDto) {
     const savedOrder = await this.orderService.saveOrder(orderData)
-    if (savedOrder) {
-      console.log('BRL pedido salvo.:', savedOrder)
-    } else {
-      console.log('Non-BRL pedido. Skipped.')
-    }
     return { message: 'Dados do Webhook foi processado com sucesso' }
   }
 }

@@ -13,6 +13,12 @@ export class OrderService {
   async saveOrder(orderDto: OrderDto): Promise<Order> {
     const createOrder = new this.orderModel(orderDto)
     if (orderDto.currency === 'BRL') {
+      const existingOrder = await this.orderModel.findOne({ id: orderDto.id }).exec()
+      if (existingOrder) {
+        console.log(`Pedido com id ${orderDto.id} já processado.`)
+        return existingOrder
+      }
+      console.log('Pedindo em BRL encontrado, salvando: ', orderDto)
       return createOrder.save()
     }
     return createOrder

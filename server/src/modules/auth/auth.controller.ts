@@ -13,9 +13,12 @@ export class AuthController {
   @Post('register')
   async register(@Body() body: { username: string; password: string; store: string }) {
     const user = await this.authService.register(body.username, body.password, body.store)
+    const userResponseObject = plainToInstance(UserResponseObject, user, {
+      excludeExtraneousValues: true,
+    })
     return {
       message: 'Usuário cadastrado com sucesso.',
-      user,
+      user: userResponseObject,
     }
   }
 
